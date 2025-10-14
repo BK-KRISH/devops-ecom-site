@@ -1,0 +1,68 @@
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Simple product list
+const PRODUCTS = [
+  { id: 1, name: 'Blue T-Shirt', price: 19.99, desc: 'Comfortable cotton tee' },
+  { id: 2, name: 'Sneakers', price: 59.99, desc: 'Stylish running shoes' },
+  { id: 3, name: 'Coffee Mug', price: 9.99, desc: 'Ceramic mug 350ml' },
+  { id: 4, name: 'Backpack', price: 39.99, desc: 'Durable travel backpack' }
+];
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'devops-demo-secret',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// home / product list
+app.get('/', (req, res) => {
+  res.render('index', { products: PRODUCTS, cart: req.session.cart || [] });
+});
+
+// product detail
+app.get('/product/:id', (req, res) => {
+  const p = PRODUCTS.find(x => x.id === Number(req.params.id));
+  if (!p) return res.status(404).send('Product not found');
+  res.render('product', { product: p, cart: req.session.cart || [] });
+});
+
+// add to cart
+app.post('/cart/add', (req, res) => {
+  const id = Number(req.body.productId);
+  const product = PRODUCTS.find(x => x.id === id);
+  if (!product) return res.status(400).send('Invalid product');
+  if (!req.session.cart) req.session.cart = [];
+  req.session.cart.push(product);
+  res.redirect('back');
+});
+
+// view cart
+app.get('/cart', (req, res) => {
+  const cart = req.session.cart || [];
+  const total = cart.reduce((s, p) => s + p.price, 0);
+  res.render('cart', { cart, total });
+});
+
+// simple checkout (no payment)
+app.post('/checkout', (req, res) => {
+  req.session.cart = [];
+  res.render('checkout');
+});
+
+// health
+app.get('/health', (req, res) => res.send('ok'));
+
+const serverPort = process.env.PORT || 3000;
+app.listen(serverPort, () => {
+  console.log(`App listening on port ${serverPort}`);
+});
