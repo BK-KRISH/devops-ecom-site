@@ -7,10 +7,10 @@ const PORT = process.env.PORT || 3000;
 
 // Simple product list
 const PRODUCTS = [
-  { id: 1, name: 'AI/ML', price: 19.99, desc: 'Artificial Intelligence, Machine Learning' },
-  { id: 2, name: 'Full Stack', price: 59.99, desc: 'Front End, Back End, My SQL' },
-  { id: 3, name: 'Data Science', price: 9.99, desc: 'Data Collection, Data Warehouse' },
-  { id: 4, name: 'Data Analytics', price: 39.99, desc: 'Maintenance, Monitoring' }
+  { id: 1, name: 'AI/ML', price: 15000, desc: 'Artificial Intelligence, Machine Learning' },
+  { id: 2, name: 'Full Stack', price: 45000, desc: 'Front End, Back End, My SQL' },
+  { id: 3, name: 'Data Science', price: 25000, desc: 'Data Collection, Data Warehouse' },
+  { id: 4, name: 'Data Analytics', price: 35000, desc: 'Maintenance, Monitoring' }
 ];
 
 app.set('views', path.join(__dirname, 'views'));
