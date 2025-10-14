@@ -14,7 +14,8 @@
   <main>
     <h2><%= product.name %></h2>
     <p><%= product.desc %></p>
-    <p class="price">$<%= product.price.toFixed(2) %></p>
+    <!-- Convert USD to INR (approx ×83) -->
+    <p class="price">₹<%= (product.price * 83).toFixed(2) %></p>
 
     <form method="post" action="/cart/add">
       <input type="hidden" name="productId" value="<%= product.id %>" />
