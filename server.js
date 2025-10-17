@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 const PRODUCTS = [
   { id: 1, name: 'AI/ML', price: 15000, desc: 'Artificial Intelligence, Machine Learning' },
   { id: 2, name: 'Full Stack Developer', price: 45000, desc: 'Front End, Back End, My SQL' },
-  { id: 3, name: 'Data Science', price: 25000, desc: 'Data Collection, Data Warehouse' },
+  { id: 3, name: 'Data Science', price: 25000, desc: 'Data Collection, Data Mining' },
   { id: 4, name: 'DevOps', price: 35000, desc: 'Automation, CI/CD' }
 ];
 
