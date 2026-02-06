@@ -10,7 +10,7 @@ const PRODUCTS = [
   { id: 1, name: 'CyberSecurity', price: 15000, desc: 'Artificial Intelligence, Machine Learning' },
   { id: 2, name: 'MERN Stack Developer', price: 45000, desc: 'Front End, Back End, Data Base' },
   { id: 3, name: 'Data Science', price: 25000, desc: 'Data Collection, Data Mining' },
-  { id: 4, name: 'DEVOPS ENGINEER', price: 35000, desc: 'Automation, CI/CD' }
+  { id: 4, name: 'DEVOPS', price: 35000, desc: 'Automation, CI/CD' }
 ];
 
 app.set('views', path.join(__dirname, 'views'));
