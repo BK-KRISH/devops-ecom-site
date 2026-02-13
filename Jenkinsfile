@@ -3,7 +3,7 @@ pipeline {
 
   environment {
     DOCKER_IMAGE = "bkkrish007/devops-ecom-site:latest"
-    EC2_HOST = 23.23.30.82
+    EC2_HOST = "23.23.30.82"
   }
 
   stages {
