@@ -27,7 +27,7 @@ pipeline {
 
     stage('Deploy to EC2') {
       steps {
-        sshagent(['ubuntu']) {   // <-- MATCH YOUR CREDENTIAL ID
+        sshagent(['devops-key']) {   // <-- MATCH YOUR CREDENTIAL ID
           sh """
           ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
             docker pull ${DOCKER_IMAGE} &&
