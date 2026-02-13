@@ -2,43 +2,45 @@ pipeline {
   agent any
 
   environment {
-    IMAGE = "devops-ecom"
+    DOCKER_IMAGE = "bkkrish007/devops-ecom-site:latest"
+    EC2_HOST = 23.23.30.82
   }
 
   stages {
+
     stage('Checkout') {
       steps {
         checkout scm
       }
     }
 
-    stage('Install & Test') {
-      steps {
-        sh 'npm --version || true'
-        sh 'node --version || true'
-      }
-    }
-
-    stage('Build Docker Image') {
-      steps {
-        sh "docker build -t ${IMAGE}:$BUILD_NUMBER ."
-      }
-    }
-
-    stage('Deploy') {
+    stage('Build & Push Image') {
       steps {
         sh """
-          # stop and remove if exists
-          docker rm -f ${IMAGE} || true
-          # run latest image, map host 80 -> container 3000
-          docker run -d --name ${IMAGE} -p 80:3000 ${IMAGE}:$BUILD_NUMBER
+        docker buildx build --platform linux/amd64 \
+        -t ${DOCKER_IMAGE} \
+        --push .
         """
+      }
+    }
+
+    stage('Deploy to EC2') {
+      steps {
+        sshagent(['ec2-key']) {
+          sh """
+          ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} '
+            docker pull ${DOCKER_IMAGE} &&
+            docker rm -f ecom || true &&
+            docker run -d -p 80:3000 --name ecom ${DOCKER_IMAGE}
+          '
+          """
+        }
       }
     }
   }
 
   post {
-    success { echo "Deployed ${IMAGE}:$BUILD_NUMBER" }
-    failure { echo "Build failed" }
+    success { echo "🚀 Deployment Successful" }
+    failure { echo "❌ Build Failed" }
   }
 }
