@@ -17,6 +17,7 @@ pipeline {
     stage('Build & Push Image') {
       steps {
         sh """
+        export PATH=/usr/local/bin:\$PATH
         docker buildx build --platform linux/amd64 \
         -t ${DOCKER_IMAGE} \
         --push .
