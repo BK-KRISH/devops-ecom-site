@@ -27,13 +27,13 @@ pipeline {
 
     stage('Deploy to EC2') {
       steps {
-        sshagent(['ec2-key']) {
+        sshagent(['ubuntu']) {   // <-- MATCH YOUR CREDENTIAL ID
           sh """
-          ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} '
+          ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
             docker pull ${DOCKER_IMAGE} &&
             docker rm -f ecom || true &&
             docker run -d -p 80:3000 --name ecom ${DOCKER_IMAGE}
-          '
+          "
           """
         }
       }
